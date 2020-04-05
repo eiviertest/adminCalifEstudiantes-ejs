@@ -1,52 +1,42 @@
 <%- include('../partials/header') %>
-{{#if subjects}}
-<div class="col-md-6 mx-auto">
-    <div class="card">
-        <div class="card-header">
-            <h3>Add Unit Subject</h3>
-        </div>
-        <div class="card-body">
-            <form action="/unitSubject/saveUnitSubject" method="POST">
-                <label class="lead">Unit</label>
-                <div class="form-group">
-                    <input type="number" name="noUnit" class="form-control" placeholder="Unit" max="6" min="1" pattern="[1-6]{1,1}" title="Only numbres" autofocus>
-                </div>
-                <label class="lead">Unit's name</label>
-                <div class="form-group">
-                    <input type="text" name="nameUnit" class="form-control" placeholder="Unit's name" autofocus pattern="[A-Za-z\s]{3,40}">
-                </div>
-                <label class="lead">Hours for unit</label>
-                <div class="form-group">
-                    <input type="number" name="hoursUnit" class="form-control" max="100" min="5" placeholder="Hours for unit" pattern="Only numbers">
-                </div>
-                <label class="lead">Hours for week</label>
-                <div class="form-group">
-                    <input type="number" name="hoursWeek" class="form-control" max="15" min="5" placeholder="Hours for week" pattern="Only numbers">
-                </div>
-                <label class="lead">Subject</label>
-                <div class="form-group">
-                    <select name="subjectID" class="form-control">
-                        {{#each subjects}}
-                            <option value="{{_id}}">{{name}}</option>
-                        {{/each}}
-                    </select>
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-primary btn-block" type="submit">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-{{else}}
-<div class="row">
-    <div class="card mx-auto">
-        <div class="card-body">
-            <h1>Excuse me!</h1>
-            <p class="lead">There are no subjects registered yet</p>
-            <a href="/subjects/add" class="btn btn-success btn-block">Add one</a>
+<main class="container p-3">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h3>Add Unit Subject</h3>
+            </div>
+            <div class="card-body">
+                <form action="/unitSubject/saveUnitSubject" method="POST">
+                    <label class="lead">Unit</label>
+                    <div class="form-group">
+                        <input type="number" name="noUnit" class="form-control" placeholder="Unit" max="6" min="1" pattern="[1-6]{1,1}" title="Only numbres" autofocus>
+                    </div>
+                    <label class="lead">Unit's name</label>
+                    <div class="form-group">
+                        <input type="text" name="nameUnit" class="form-control" placeholder="Unit's name" autofocus pattern="[A-Za-z\s]{3,40}">
+                    </div>
+                    <label class="lead">Hours for unit</label>
+                    <div class="form-group">
+                        <input type="number" name="hoursUnit" class="form-control" max="100" min="5" placeholder="Hours for unit" pattern="Only numbers">
+                    </div>
+                    <label class="lead">Hours for week</label>
+                    <div class="form-group">
+                        <input type="number" name="hoursWeek" class="form-control" max="15" min="5" placeholder="Hours for week" pattern="Only numbers">
+                    </div>
+                    <label class="lead">Subject</label>
+                    <div class="form-group">
+                        <select name="subjectID" class="form-control">
+                            <% for(var i=0; i< subjects.length; i++) { %>
+                                <option value="<%= subjects._id %>"><%= subjects[i].name %></option>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block" type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-{{/if}}
+</main>
 <%- include('../partials/footer') %>

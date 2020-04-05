@@ -1,33 +1,35 @@
 <%- include('../partials/header') %>
-<div class="col-md-6 mx-auto">
-    <div class="card">
-        <div class="card-header">
-            <h3>Update subject</h3>
-        </div>
-        <div class="card-body">
-            <form action="/subjects/updateSubjectDB/{{subject._id}}?_method=PUT" method="POST">
-            <input type="hidden" name="_method" value="PUT">
-                <label class="lead">Subject's name</label>
-                <div class="form-group">
-                    <input type="text" name="name" class="form-control" placeholder="Career's name" autofocus value="{{subject.name}}">
-                </div>
-                <label class="lead">Grade</label>
-                <div class="form-group">
-                    <input type="number" name="grade" class="form-control" max="6" min="1" placeholder="Grade" pattern="Only numbers" value="{{subject.grade}}">
-                </div>
-                <label class="lead">Career</label>
-                <div class="form-group">
-                    <select name="careerID" class="form-control">
-                        {{#each careers}}
-                            <option value="{{_id}}">{{name}}</option>
-                        {{/each}}
-                    </select>
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-primary btn-block" type="submit">Save</button>
-                </div>
-            </form>
+<main class="container p-3">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h3>Update subject</h3>
+            </div>
+            <div class="card-body">
+                <form action="/subjects/updateSubjectDB/{{subject._id}}?_method=PUT" method="POST">
+                <input type="hidden" name="_method" value="PUT">
+                    <label class="lead">Subject's name</label>
+                    <div class="form-group">
+                        <input type="text" name="name" class="form-control" placeholder="Career's name" autofocus value="<%= subject.name %>">
+                    </div>
+                    <label class="lead">Grade</label>
+                    <div class="form-group">
+                        <input type="number" name="grade" class="form-control" max="6" min="1" placeholder="Grade" pattern="Only numbers" value="<%= subject.grade %>">
+                    </div>
+                    <label class="lead">Career</label>
+                    <div class="form-group">
+                        <select name="careerID" class="form-control">
+                            <% for(var i=0; i< careers.length; i++) { %>
+                                <option value="<%= careers[i]._id %>"><%= careers[i].name %></option>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block" type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+</main>
 <%- include('../partials/footer') %>

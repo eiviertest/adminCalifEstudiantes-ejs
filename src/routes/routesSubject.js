@@ -19,7 +19,7 @@ router.post("/saveSubject", saveSubject);
 
 //Update a subject
 router.get("/update/:id", updateSubject);
-router.put("/updateSubjectDB/:id", updateSubjectDB);
+router.post("/updateSubjectDB/:id", updateSubjectDB);
 
 //Delete a subject
 router.get("/delete/:id", deleteSubject);

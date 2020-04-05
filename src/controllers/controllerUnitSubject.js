@@ -7,59 +7,42 @@ const UnitSubject = require("../models/UnitSubject");
 
 //Render view to show all Unit-Subject
 ctrlUnitSubject.listUnitSubject = async (req, res) => {
-  const unitSubjects = await UnitSubject.find().lean();
+  const unitSubjects = await UnitSubject.find();
   res.render("unitSubject/listUnitSubject", { unitSubjects });
 };
 
 //Render form to add a Unit-Subject
 ctrlUnitSubject.addUnitSubject = async (req, res) => {
-  const subjects = await Subject.find().lean();
+  const subjects = await Subject.find();
   res.render("unitSubject/addUnitSubject", { subjects });
 };
 
 //Save a Unit-Subject in DB
 ctrlUnitSubject.saveUnitSubject = async (req, res) => {
-  //Destructuring from request
-  const { noUnit, nameUnit, hoursUnit, hoursWeek, subjectID } = req.body;
-  console.log(req.body);
   //Create the object with module mongoose
-  const saveUnitSubjectDB = new UnitSubject({
-    noUnit,
-    nameUnit,
-    hoursUnit,
-    hoursWeek,
-    subjectID,
-  });
-  console.log(saveUnitSubjectDB);
+  const saveUnitSubject = new UnitSubject(req.body);
   //Save object created
-  await saveUnitSubjectDB.save();
+  await saveUnitSubject.save();
   res.redirect("/unitSubject");
 };
 
 //Render form to update a Unit-Subject
 ctrlUnitSubject.updateUnitSubject = async (req, res) => {
   //Find a subject in DB with ID from request
-  const subject = await Subject.findById(req.params.id).lean();
-  const careers = await Career.find().lean();
-  res.render("unitSubject/updateUnitSubject", { subject, careers });
+  const unitSubject = await UnitSubject.findById(req.params.id);
+  const subjects = await Subject.find();
+  res.render("unitSubject/updateUnitSubject", { unitSubject, subjects });
 };
 
 //Update a Unit-Subject
 ctrlUnitSubject.updateUnitSubjectDB = async (req, res) => {
-  const { noUnit, nameUnit, hoursUnit, hoursWeek, subjectID } = req.body;
-  await Subject.findByIdAndUpdate(req.params.id, {
-    noUnit,
-    nameUnit,
-    hoursUnit,
-    hoursWeek,
-    subjectID,
-  });
+  await UnitSubject.update({ _id: req.params.id }, req.body);
   res.redirect("/unitSubject");
 };
 
 //Delete a Unit-Subject
 ctrlUnitSubject.deleteUnitSubject = async (req, res) => {
-  await Subject.findByIdAndDelete(req.params.id);
+  await UnitSubject.remove({ _id: req.params.id });
   res.redirect("/unitSubject");
 };
 

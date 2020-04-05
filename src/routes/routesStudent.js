@@ -19,7 +19,7 @@ router.post("/saveStudent", saveStudent);
 
 //Update a student
 router.get("/update/:id", updateStudent);
-router.put("/updateStudent/:id", updateStudentDB);
+router.post("/updateStudent/:id", updateStudentDB);
 
 //Delete a student
 router.get("/delete/:id", deleteStudent);

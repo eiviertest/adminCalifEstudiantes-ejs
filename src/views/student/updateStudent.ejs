@@ -1,69 +1,72 @@
 <%- include('../partials/header') %>
-<div class="col-md-12 mx-auto">
-    <div class="card">
-        <div class="card-header">
-            <h3>Add student</h3>
-        </div>
-        <div class="card-body">
-            <form action="/students/saveStudent" method="POST">
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Full name</span>
+<main class="container p-3">
+    <div class="col-md-12 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h3>Add student</h3>
+            </div>
+            <div class="card-body">
+                <form action="/students/updateStudent/<%= student._id %>" method="POST">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Full name</span>
+                            </div>
+                            <input type="text" name="firstName" value="<%= student.firstName %>" disabled="true" class="form-control" placeholder="First name" required="true" pattern="[A-Za-z\s]{4,30}" title="No numeric or strange/special characters are accepted">
+                            <input type="hidden" name="firstName" value="<%= student.firstName %>">
+                            <input type="text" name="fatherLastName" value="<%= student.fatherLastName %>" disabled="true" class="form-control" placeholder="Father's last name" required="true" pattern="[A-Za-z\s]{3,40}" title="No numeric or strange/special characters are accepted">
+                            <input type="hidden" name="fatherLastName" value="<%= student.fatherLastName %>">
+                            <input type="text" name="motherLastName" value="<%= student.motherLastName %>" disabled="true" class="form-control" placeholder="Mother's last name" pattern="[A-Za-z\s]{3,40}" title="No numeric or strange/special characters are accepted">
+                            <input type="hidden" name="motherLastName" value="<%= student.motherLastName %>">
                         </div>
-                        <input type="text" name="firstName" value="{{student.firstName}}" disabled="true" class="form-control" placeholder="First name" required="true" pattern="[A-Za-z\s]{4,30}" title="No numeric or strange/special characters are accepted">
-                        <input type="text" name="fatherLastName" value="{{student.fatherLastName}}" disabled="true" class="form-control" placeholder="Father's last name" required="true" pattern="[A-Za-z\s]{3,40}" title="No numeric or strange/special characters are accepted">
-                        <input type="text" name="motherLastName" value="{{student.motherLastName}}" disabled="true" class="form-control" placeholder="Mother's last name" pattern="[A-Za-z\s]{3,40}" title="No numeric or strange/special characters are accepted">
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Address</span>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Address</span>
+                            </div>
+                            <input type="text" name="neighborhood" value="<%= student.address.neighborhood %>" class="form-control" placeholder="Neighborhood" required="true" pattern="[A-Za-z\s]{4,30}" title="No numeric or strange/special characters are accepted">
+                            <input type="text" name="street" value="<%= student.address.street %>" class="form-control" placeholder="Street" required="true" pattern="[A-Za-z\s]{3,40}" title="No numeric or strange/special characters are accepted">
                         </div>
-                        <input type="text" name="neighborhood" value="{{student.address.neighborhood}}" class="form-control" placeholder="Neighborhood" required="true" pattern="[A-Za-z\s]{4,30}" title="No numeric or strange/special characters are accepted">
-                        <input type="text" name="street" value="{{student.address.street}}" class="form-control" placeholder="Street" required="true" pattern="[A-Za-z\s]{3,40}" title="No numeric or strange/special characters are accepted">
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Outside and inside number</span>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Outside and inside number</span>
+                            </div>
+                            <input type="number" name="outside" value="<%= student.address.outside %>" class="form-control" placeholder="Outside" required="true" pattern="[0-9]{0,5}" title="Only numbers">
+                            <input type="text" name="inside" value="<%= student.address.inside %>" class="form-control" placeholder="Inside" maxlength="2" pattern="[A-Z]{0,2}" title="Only alphabet letters">
+                            <input type="number" name="zipCode" value="<%= student.address.zipCode %>" class="form-control" placeholder="ZipCode" minlength="4" maxlength="7" min="9999" max="9999999" required="true" pattern="[0-9]{4,7}" title="Only numbers">
                         </div>
-                        <input type="number" name="outside" value="{{student.address.outside}}" class="form-control" placeholder="Outside" required="true" pattern="[0-9]{0,5}" title="Only numbers">
-                        <input type="text" name="inside" value="{{student.address.inside}}" class="form-control" placeholder="Inside" maxlength="2" pattern="[A-Z]{0,2}" title="Only alphabet letters">
-                        <input type="number" name="zipCode" value="{{student.address.zipCode}}" class="form-control" placeholder="ZipCode" minlength="4" maxlength="7" min="9999" max="9999999" required="true" pattern="[0-9]{4,7}" title="Only numbers">
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Contact</span>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Contact</span>
+                            </div>
+                            <% for(var i=0; i< student.contact.length; i++) { %>
+                                <input type="number" name="number" value="<%= student.contact[i].number %>" class="form-control" placeholder="Phone number" required="true" pattern="[0-9]" title="Only numbers">
+                            <% } %>
+                            <input type="email" name="email" value="<%= student.email %>" class="form-control" placeholder="Email" required="true" title="Only email">
                         </div>
-                        {{#each student.contact}}
-                            <input type="number" name="number" value="{{number}}" class="form-control" placeholder="Phone number" required="true" pattern="[0-9]" title="Only numbers">
-                        {{/each}}
-                        <input type="email" name="email" value="{{student.email}}" class="form-control" placeholder="Email" required="true" title="Only email">
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Grade and Career</span>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Grade and Career</span>
+                            </div>
+                            <input type="number" name="currentGrade" value="<%= student.currentGrade %>" disabled="true" class="form-control" placeholder="Current Grade" required="true" pattern="[0-9]{1,1}" title="Only number">
+                            <input type="hidden" name="currentGrade" value="<%= student.currentGrade %>">
+                            <input type="text" name="careerID" value="<%= careerStudent.name %>" disabled="true" class="form-control" placeholder="Career's name">
+                            <input type="hidden" name="careerID" value="<%= careerStudent.name %>">
                         </div>
-                        <input type="number" name="currentGrade" value="{{student.currentGrade}}" disabled="true" class="form-control" placeholder="Current Grade" required="true" pattern="[0-9]{1,1}" title="Only number">
-                        <select name="careerID" class="form-control" disabled="true">
-                            {{#each careers}}
-                                <option value="{{_id}}">{{name}}</option>
-                            {{/each}}
-                        </select>
                     </div>
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-primary btn-block" type="submit">Save</button>
-                </div>
-            </form>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block" type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+</main>
 <%- include('../partials/footer') %>

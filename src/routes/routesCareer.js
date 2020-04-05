@@ -19,7 +19,7 @@ router.post("/saveCareer", saveCareer);
 
 //Update a career
 router.get("/update/:id", updateCareer);
-router.put("/updateCareerDB/:id", updateCareerDB);
+router.post("/updateCareerDB/:id", updateCareerDB);
 
 //Delete a career
 router.get("/delete/:id", deleteCareer);

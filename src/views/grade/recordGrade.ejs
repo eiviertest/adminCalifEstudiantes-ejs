@@ -41,42 +41,45 @@
     });
 </script>
 
-<form action="/recordGrade" method="POST" id="formRecordGrade" name="formRecordGrade">
-    <div class="row">
-        <div class="card col-md-5 p-2 m-2">
-            <label class="lead">Career</label>
-            <div class="group-form">
-                <select id="career" name="career" class="form-control">
-                    <option value="">Select career</option>
-                    {{#each careers}}
-                    <option value="{{_id}}">{{name}}</option>
-                    {{/each}}
-                </select>
+<main class="container p-3">
+    <form action="/recordGrade" method="POST" id="formRecordGrade" name="formRecordGrade">
+        <div class="row">
+            <div class="card col-md-5 p-2 m-2">
+                <label class="lead">Career</label>
+                <div class="group-form">
+                    <select id="career" name="career" class="form-control">
+                        <option value="">Select career</option>
+                        {{#each careers}}
+                        <option value="{{_id}}">{{name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <label class="lead">Student</label>
+                <div class="group-form">
+                    <select id="student" name="student" class="form-control">
+                    </select>
+                </div>
+                <label class="lead">Subject</label>
+                <div class="group-form">
+                    <select id="subject" name="subject" class="form-control">
+                    </select>
+                </div>
+                <label class="lead">Unit</label>
+                <div class="group-form">
+                    <select id="unit" name="unit" class="form-control">
+                    </select>
+                </div>
             </div>
-            <label class="lead">Student</label>
-            <div class="group-form">
-                <select id="student" name="student" class="form-control">
-                </select>
-            </div>
-            <label class="lead">Subject</label>
-            <div class="group-form">
-                <select id="subject" name="subject" class="form-control">
-                </select>
-            </div>
-            <label class="lead">Unit</label>
-            <div class="group-form">
-                <select id="unit" name="unit" class="form-control">
-                </select>
+            <div class="card col-md-6 p-2 m-2">
+                <input name="studentID" id="studentID">
+                <input name="subjectID" id="subjectID">
+                <input name="noUnit" id="noUnit">
+                <button type="submit" name="btnRecordGrade" id="btnRecordGrade" class="btn btn-success">
+                    Record grade
+                </button>
             </div>
         </div>
-        <div class="card col-md-6 p-2 m-2">
-            <input name="studentID" id="studentID">
-            <input name="subjectID" id="subjectID">
-            <input name="noUnit" id="noUnit">
-            <button type="submit" name="btnRecordGrade" id="btnRecordGrade" class="btn btn-success">
-                Record grade
-            </button>
-        </div>
-    </div>
-</form>
+    </form>
+</main>
+
 <%- include('../partials/footer') %>

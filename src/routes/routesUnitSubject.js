@@ -19,7 +19,7 @@ router.post("/saveUnitSubject", saveUnitSubject);
 
 //Update a Unit-Subject
 router.get("/update/:id", updateUnitSubject);
-router.put("/updateUnitSubjectDB/:id", updateUnitSubjectDB);
+router.post("/updateUnitSubject/:id", updateUnitSubjectDB);
 
 //Delete a Unit-Subject
 router.get("/delete/:id", deleteUnitSubject);

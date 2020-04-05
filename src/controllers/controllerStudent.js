@@ -7,14 +7,14 @@ const Career = require("../models/Career");
 
 //Render view to show all students
 ctrlStudent.listStudents = async (req, res) => {
-  const students = await Student.find().lean();
+  const students = await Student.find();
   res.render("student/listStudents", { students });
 };
 
 //Render form to add a student
 ctrlStudent.addStudent = async (req, res) => {
   //Get all careers from DB
-  const careers = await Career.find().lean();
+  const careers = await Career.find();
   res.render("student/addStudent", { careers });
 };
 
@@ -35,7 +35,6 @@ ctrlStudent.saveStudent = async (req, res) => {
     currentGrade,
     careerID,
   } = req.body;
-  console.log(req.body);
   //Create the object with module mongoose
   const saveStudentDB = new Student({
     firstName,
@@ -55,13 +54,14 @@ ctrlStudent.saveStudent = async (req, res) => {
 //Render form to update a student
 ctrlStudent.updateStudent = async (req, res) => {
   //Find a student in DB with ID from request
-  const student = await Student.findById(req.params.id).lean();
-  const careers = await Career.find().lean();
-  res.render("student/updateStudent", { student, careers });
+  const student = await Student.findById(req.params.id);
+  const careerStudent = await Career.findById(student.careerID);
+  res.render("student/updateStudent", { student, careerStudent });
 };
 
 //Update a student
 ctrlStudent.updateStudentDB = async (req, res) => {
+  //Destructuring assignment from request
   const {
     neighborhood,
     street,
@@ -71,18 +71,20 @@ ctrlStudent.updateStudentDB = async (req, res) => {
     number,
     email,
   } = req.body;
-  await Student.findByIdAndUpdate
-  (req.params.id, {
-    address: { neighborhood, street, outside, inside, zipCode },
-    contact: { number },
-    email,
-  });
+  await Student.update(
+    { _id: req.params.id },
+    {
+      address: { neighborhood, street, outside, inside, zipCode },
+      contact: { number },
+      email,
+    }
+  );
   res.redirect("/students");
 };
 
 //Delete a student
 ctrlStudent.deleteStudent = async (req, res) => {
-  await Student.findByIdAndDelete(req.params.id);
+  await Student.remove({ _id: req.params.id });
   res.redirect("/students");
 };
 
