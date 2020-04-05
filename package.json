@@ -1,30 +1,29 @@
 {
-  "name": "admin-calif-estudiantes",
+  "name": "admin-calif-estudiantes-ejs",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eiviertest/adminStudents.git"
   },
   "keywords": [],
-  "author": "Vargas Ramirez Alejandro",
+  "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eiviertest/adminStudents/issues"
+  },
+  "homepage": "https://github.com/eiviertest/adminStudents#readme",
   "dependencies": {
-    "@handlebars/allow-prototype-access": "^1.0.3",
-    "body-parser": "^1.19.0",
-    "connect-flash": "^0.1.1",
+    "ejs": "^3.0.2",
     "express": "^4.17.1",
-    "express-handlebars": "^4.0.0",
-    "express-session": "^1.17.0",
-    "method-override": "^3.0.0",
-    "mongoose": "^5.9.6",
+    "mongoose": "^5.9.7",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "dotenv": "^8.2.0",
-    "handlebars": "^4.7.3",
-    "nodemon": "^2.0.2",
-    "npm-check-updates": "^4.1.0"
+    "nodemon": "^2.0.2"
   }
 }

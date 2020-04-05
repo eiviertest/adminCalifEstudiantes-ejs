@@ -1,45 +1,80 @@
-<div class="row">
-    <div class="card col-md-5 p-2 m-2">
-        <label class="lead">Career</label>
-        <div class="group-form">
-            <select name="comunidad" class="form-control">
-                <option value="Hola">Hola</option>
-            </select>
-        </div>
-        <label class="lead">Student</label>
-        <div class="group-form">
-            <select name="comunidad" class="form-control">
-                <option value="Hola">Hola</option>
-            </select>
-        </div>
-        <label class="lead">Subject</label>
-        <div class="group-form">
-            <select name="comunidad" class="form-control">
-                <option value="Hola">Hola</option>
-            </select>
-        </div>
-    </div>
-    <div class="card col-md-6 p-2 m-2">
-        <div class="table-responsive">
-            <table class="table table-dark mx-auto">
-                <thead class="thead-dark">
-                    <tr>
-                        <th class="lead">Register grade</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each comunidades}}
-                    <tr>
-                        <td>{{comunidad}}</td>
-                        <td>
-                            <a href="/comunidades/editar/{{_id}}"><i class="fa fa-pencil fa-lg"></i></a>
-                            <a href="/comunidades/eliminar/{{_id}}"><i class="fas fa-trash fa-lg"></i></a>
-                        </td>
-                    </tr>
+<script type="text/javascript">
+    $(document).ready(function (e) {
+
+        //Global variables
+        var carrerIDGlobal = "";
+        var studentIDGlobal;
+        var subjectIDGlobal;
+
+        //Hiding items from document
+        $("#student").hide()
+        $("#subject").hide()
+        $("#unit").hide()
+        $("#studentID").hide()
+        $("#subjectID").hide()
+        $("#noUnit").hide()
+        var btnRecordGrade = document.getElementById("btnRecordGrade");
+        btnRecordGrade.disabled = true;
+
+        //Listener to changes on item career
+        $("#career").change(function (e) {
+            var careerID = $("#careerID").val();
+            carrerIDGlobal = careerID;
+
+            $.ajax({
+                url: "/careerCmb/" + careerID,
+                type: "GET",
+                success: function (e) {
+                    $("#subject").hide();
+                    $("#unit").hide();
+                    $("#student").html("");
+                    $("#student").append('<option value="">Select student</option>')
+                    $.each(e, function (ID, dataStudent) {
+                        $("#student").show();
+                        $("#student").append('<option value=' + dataStudent.currentGrade + ';' + dataStudent._id + '>' + dataStudent.firstName + '</option>');
+                    });
+                }
+            });
+            //Listener to changes on item student
+        });
+    });
+</script>
+
+<form action="/recordGrade" method="POST" id="formRecordGrade" name="formRecordGrade">
+    <div class="row">
+        <div class="card col-md-5 p-2 m-2">
+            <label class="lead">Career</label>
+            <div class="group-form">
+                <select id="career" name="career" class="form-control">
+                    <option value="">Select career</option>
+                    {{#each careers}}
+                    <option value="{{_id}}">{{name}}</option>
                     {{/each}}
-                </tbody>
-            </table>
+                </select>
+            </div>
+            <label class="lead">Student</label>
+            <div class="group-form">
+                <select id="student" name="student" class="form-control">
+                </select>
+            </div>
+            <label class="lead">Subject</label>
+            <div class="group-form">
+                <select id="subject" name="subject" class="form-control">
+                </select>
+            </div>
+            <label class="lead">Unit</label>
+            <div class="group-form">
+                <select id="unit" name="unit" class="form-control">
+                </select>
+            </div>
+        </div>
+        <div class="card col-md-6 p-2 m-2">
+            <input name="studentID" id="studentID">
+            <input name="subjectID" id="subjectID">
+            <input name="noUnit" id="noUnit">
+            <button type="submit" name="btnRecordGrade" id="btnRecordGrade" class="btn btn-success">
+                Record grade
+            </button>
         </div>
     </div>
-</div>
+</form>
