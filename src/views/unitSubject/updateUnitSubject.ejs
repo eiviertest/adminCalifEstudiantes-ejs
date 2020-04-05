@@ -1,3 +1,4 @@
+<%- include('../partials/header') %>
 {{#if subjects}}
 <div class="col-md-6 mx-auto">
     <div class="card">
@@ -5,22 +6,23 @@
             <h3>Add Unit Subject</h3>
         </div>
         <div class="card-body">
-            <form action="/unitSubject/saveUnitSubject" method="POST">
+            <form action="/unitSubject/updateUnitSubjectDB/{{unitSubject._id}}?method=PUT" method="POST">
+            <input type="hidden" name="_method" value="PUT">
                 <label class="lead">Unit</label>
                 <div class="form-group">
-                    <input type="number" name="noUnit" class="form-control" placeholder="Unit" max="6" min="1" pattern="[1-6]{1,1}" title="Only numbres" autofocus>
+                    <input type="number" name="noUnit" class="form-control" value="{{unitSubject.unit}}" placeholder="Unit" pattern="[1-6]{1}" title="Only numbres" autofocus>
                 </div>
                 <label class="lead">Unit's name</label>
                 <div class="form-group">
-                    <input type="text" name="nameUnit" class="form-control" placeholder="Unit's name" autofocus pattern="[A-Za-z\s]{3,40}">
+                    <input type="text" name="nameUnit" class="form-control" value="{{unitSubject.nameUnit}}" placeholder="Unit's name" autofocus pattern="[A-Za-z\s]">
                 </div>
                 <label class="lead">Hours for unit</label>
                 <div class="form-group">
-                    <input type="number" name="hoursUnit" class="form-control" max="100" min="5" placeholder="Hours for unit" pattern="Only numbers">
+                    <input type="number" name="hoursUnit" class="form-control" value="{{unitSubject.hoursUnit}}" max="6" min="1" placeholder="Grade" pattern="Only numbers">
                 </div>
                 <label class="lead">Hours for week</label>
                 <div class="form-group">
-                    <input type="number" name="hoursWeek" class="form-control" max="15" min="5" placeholder="Hours for week" pattern="Only numbers">
+                    <input type="number" name="hoursWeek" class="form-control" value="{{unitSubject.hoursWeek}}" max="6" min="1" placeholder="Grade" pattern="Only numbers">
                 </div>
                 <label class="lead">Subject</label>
                 <div class="form-group">
@@ -48,3 +50,4 @@
     </div>
 </div>
 {{/if}}
+<%- include('../partials/footer') %>

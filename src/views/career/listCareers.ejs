@@ -1,9 +1,10 @@
-{{#if subjects}}
+<%- include('../partials/header') %>
+{{#if careers}}
 <div class="row">
     <div class="card mx-auto m-4">
         <div class="card-body">
             <h1>Welcome!!!</h1>
-            <a href="/subjects/add" class="btn btn-success btn-block">Create new subject</a>
+            <a href="/careers/add" class="btn btn-success btn-block">Create new career</a>
         </div>
     </div>
     <div class="table-responsive">
@@ -15,12 +16,12 @@
                 </tr>
             </thead>
             <tbody>
-                {{#each subjects}}
+                {{#each careers}}
                 <tr>
                     <td>{{name}}</td>
                     <td>
-                        <a href="/subjects/update/{{_id}}"><i class="fa fa-pencil fa-lg"></i></a>
-                        <a href="/subjects/delete/{{_id}}"><i class="fas fa-trash fa-lg"></i></a>
+                        <a href="/careers/update/{{_id}}"><i class="fa fa-pencil fa-lg"></i></a>
+                        <a href="/careers/delete/{{_id}}"><i class="fas fa-trash fa-lg"></i></a>
                     </td>
                 </tr>
                 {{/each}}
@@ -33,9 +34,10 @@
     <div class="card mx-auto">
         <div class="card-body">
             <h1>Excuse me!</h1>
-            <p class="lead">There are no subjects registered yet</p>
-            <a href="/subjects/add" class="btn btn-success btn-block">Add one</a>
+            <p class="lead">There are no careers registered yet</p>
+            <a href="/careers/add" class="btn btn-success btn-block">Add one</a>
         </div>
     </div>
 </div>
 {{/if}}
+<%- include('../partials/footer') %>
