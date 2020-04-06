@@ -31,7 +31,8 @@ ctrlSubject.updateSubject = async (req, res) => {
   //Find a subject in DB with ID from request
   const subject = await Subject.findById(req.params.id);
   const careers = await Career.find();
-  res.render("subject/updateSubject", { subject, careers });
+  const careerSubject = await Career.findById(subject.careerID);
+  res.render("subject/updateSubject", { subject, careers, careerSubject });
 };
 
 //Update a career

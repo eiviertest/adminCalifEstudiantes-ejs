@@ -18,6 +18,8 @@
                     <label class="lead">Career</label>
                     <div class="form-group">
                         <select name="careerID" class="form-control">
+                            <option value="" selected disabled>Select a career</option>
+                            <option value="<%= careerSubject._id %>" selected disabled><%= careerSubject.name %></option>
                             <% for(var i=0; i< careers.length; i++) { %>
                                 <option value="<%= careers[i]._id %>"><%= careers[i].name %></option>
                             <% } %>
