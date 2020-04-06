@@ -3,34 +3,29 @@
     <div class="col-md-6 mx-auto">
         <div class="card">
             <div class="card-header">
-                <h3>Add Unit Subject</h3>
+                <h3>Update Unit Subject</h3>
             </div>
             <div class="card-body">
-                <form action="/unitSubject/updateUnitSubjectDB/{{unitSubject._id}}?method=PUT" method="POST">
-                <input type="hidden" name="_method" value="PUT">
+                <form action="/unitSubject/updateUnitSubjectDB/<%= unitSubject._id %> method="POST">
                     <label class="lead">Unit</label>
                     <div class="form-group">
-                        <input type="number" name="noUnit" class="form-control" value="{{unitSubject.unit}}" placeholder="Unit" pattern="[1-6]{1}" title="Only numbres" autofocus>
+                        <input type="number" name="noUnit" class="form-control" value="<%= unitSubject.noUnit %>" placeholder="Unit" max="6" min="1" pattern="[1-6]{1,1}" title="Only numbres" autofocus>
                     </div>
                     <label class="lead">Unit's name</label>
                     <div class="form-group">
-                        <input type="text" name="nameUnit" class="form-control" value="{{unitSubject.nameUnit}}" placeholder="Unit's name" autofocus pattern="[A-Za-z\s]">
+                        <input type="text" name="nameUnit" class="form-control" value="<%= unitSubject.nameUnit %>" placeholder="Unit's name" placeholder="Unit's name" pattern="[A-Za-z\s]{3,40}">
                     </div>
                     <label class="lead">Hours for unit</label>
                     <div class="form-group">
-                        <input type="number" name="hoursUnit" class="form-control" value="{{unitSubject.hoursUnit}}" max="6" min="1" placeholder="Grade" pattern="Only numbers">
+                        <input type="number" name="hoursUnit" class="form-control" value="<%= unitSubject.hoursUnit %>" max="100" min="5" placeholder="Hours for unit" pattern="[0-9]{1,3}" pattern="Only numbers">
                     </div>
                     <label class="lead">Hours for week</label>
                     <div class="form-group">
-                        <input type="number" name="hoursWeek" class="form-control" value="{{unitSubject.hoursWeek}}" max="6" min="1" placeholder="Grade" pattern="Only numbers">
+                        <input type="number" name="hoursWeek" class="form-control" value="<%= unitSubject.hoursWeek %>" max="20" min="3" placeholder="Hours for week" pattern="[0-9]{1,2}" pattern="Only numbers">
                     </div>
                     <label class="lead">Subject</label>
                     <div class="form-group">
-                        <select name="subjectID" class="form-control">
-                            {{#each subjects}}
-                                <option value="{{_id}}">{{name}}</option>
-                            {{/each}}
-                        </select>
+                        <input type="text" name="subjectID" class="form-control" value="<%= subject.name %>" disabled>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-primary btn-block" type="submit">Save</button>

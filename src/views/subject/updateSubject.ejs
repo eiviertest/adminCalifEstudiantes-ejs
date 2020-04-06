@@ -6,8 +6,7 @@
                 <h3>Update subject</h3>
             </div>
             <div class="card-body">
-                <form action="/subjects/updateSubjectDB/{{subject._id}}?_method=PUT" method="POST">
-                <input type="hidden" name="_method" value="PUT">
+                <form action="/subjects/updateSubjectDB/<%= subject._id %>" method="POST">
                     <label class="lead">Subject's name</label>
                     <div class="form-group">
                         <input type="text" name="name" class="form-control" placeholder="Career's name" autofocus value="<%= subject.name %>">
