@@ -30,8 +30,9 @@ ctrlUnitSubject.saveUnitSubject = async (req, res) => {
 ctrlUnitSubject.updateUnitSubject = async (req, res) => {
   //Find a subject in DB with ID from request
   const unitSubject = await UnitSubject.findById(req.params.id);
-  const subject = await Subject.findById(unitSubject.subjectID);
-  res.render("unitSubject/updateUnitSubject", { unitSubject, subject });
+  const subjects = await Subject.find();
+  const subjectUnitSubject = await Subject.findById(unitSubject.subjectID);
+  res.render("unitSubject/updateUnitSubject", { unitSubject, subjects, subjectUnitSubject });
 };
 
 //Update a Unit-Subject
