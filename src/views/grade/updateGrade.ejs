@@ -1,0 +1,26 @@
+<%- include('../partials/header') %>
+    <div class="container">
+        <form action="/recordGrade/updateGradeDB/<%= grade._id%>" method="POST"> 
+            <div class="table-responsive m-4">
+                <table class="table table-dark col-md-7 mx-auto">
+                    <thead>
+                        <tr>
+                            <th>Grade</th>
+                            <th>Grade R1</th>
+                            <th>Grade R2</th>
+                            <th>Grade Global</th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th><input type="text" name="grade" placeholder="Grade" class="form-control" value="<%=grade.grade %>"></th> 
+                            <th><input type="text" name="gradeR1" placeholder="Grade R1" class="form-control" value="<%=grade.gradeR1 %>"></th> 
+                            <th><input type="text" name="gradeR2" placeholder="Grade R2" class="form-control" value="<%=grade.gradeR2 %>"></th> 
+                            <th><input type="text" name="gradeGlobal" placeholder="Grade Global" class="form-control" value="<%=grade.gradeGlobal %>"></th> 
+                            <th><button type="submit" class="btn btn-success btn-block">Save</button></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </form>
+    </div>
+<%- include('../partials/footer') %>

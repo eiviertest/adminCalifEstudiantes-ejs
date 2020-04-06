@@ -4,6 +4,8 @@ ctrlStudent = {};
 const Student = require("../models/Student");
 //Get career's model
 const Career = require("../models/Career");
+//Get grade's model
+const Grade = require("../models/Grade");
 
 //Render view to show all students
 ctrlStudent.listStudents = async (req, res) => {
@@ -84,8 +86,12 @@ ctrlStudent.updateStudentDB = async (req, res) => {
 
 //Delete a student
 ctrlStudent.deleteStudent = async (req, res) => {
-  await Student.remove({ _id: req.params.id });
+  const gradeStudentDB = Grade.find({ studentID: req.params.id });
+  if ((await gradeStudentDB).length == 0) {
+    await Student.remove({ _id: req.params.id });
+  }
   res.redirect("/students");
 };
+
 
 module.exports = ctrlStudent;

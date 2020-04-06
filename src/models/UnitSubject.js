@@ -2,11 +2,11 @@ const { Schema, model } = require("mongoose");
 
 const UnitSubjectSchema = new Schema(
   {
-    subjectID: String,
     noUnit: Number,
     nameUnit: String,
     hoursUnit: Number,
     hoursWeek: Number,
+    subjectID: String,
   },
   { timestamps: true }
 );

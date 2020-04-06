@@ -27,7 +27,7 @@
                     <div class="form-group">
                         <select name="subjectID" class="form-control">
                             <% for(var i=0; i< subjects.length; i++) { %>
-                                <option value="<%= subjects._id %>"><%= subjects[i].name %></option>
+                                <option value="<%= subjects[i]._id %>"><%= subjects[i].name %></option>
                             <% } %>
                         </select>
                     </div>

@@ -1,85 +1,197 @@
 <%- include('../partials/header') %>
 <script type="text/javascript">
-    $(document).ready(function (e) {
+  $(document).ready(function (e) {
+    //Global variables
+    var carrerIDGlobal = "";
+    var studentIDGlobal;
+    var subjectIDGlobal;
 
-        //Global variables
-        var carrerIDGlobal = "";
-        var studentIDGlobal;
-        var subjectIDGlobal;
+    //Hiding items from document
+    $("#student").hide();
+    $("#subject").hide();
+    $("#unit").hide();
+    $("#studentID").hide();
+    $("#subjectID").hide();
+    $("#noUnit").hide();
+    var btnRecordGrade = document.getElementById("btnRecordGrade");
+    btnRecordGrade.disabled = true;
 
-        //Hiding items from document
-        $("#student").hide()
-        $("#subject").hide()
-        $("#unit").hide()
-        $("#studentID").hide()
-        $("#subjectID").hide()
-        $("#noUnit").hide()
-        var btnRecordGrade = document.getElementById("btnRecordGrade");
-        btnRecordGrade.disabled = true;
-
-        //Listener to changes on item career
-        $("#career").change(function (e) {
-            var careerID = $("#careerID").val();
-            carrerIDGlobal = careerID;
-
-            $.ajax({
-                url: "/careerCmb/" + careerID,
-                type: "GET",
-                success: function (e) {
-                    $("#subject").hide();
-                    $("#unit").hide();
-                    $("#student").html("");
-                    $("#student").append('<option value="">Select student</option>')
-                    $.each(e, function (ID, dataStudent) {
-                        $("#student").show();
-                        $("#student").append('<option value=' + dataStudent.currentGrade + ';' + dataStudent._id + '>' + dataStudent.firstName + '</option>');
-                    });
-                }
-            });
-            //Listener to changes on item student
+    //Listener to changes on item career
+    $("#career").change(function (e) {
+        var careerID = $("#career").val();
+        carrerIDGlobal = careerID;
+        $.ajax({
+            url: "/recordGrade/careerCmb/" + careerID,
+            type: "GET",
+            success: function (e) {
+                $("#subject").hide();
+                $("#unit").hide();
+                $("#student").html("");
+                $("#student").append('<option value="" selected disabled>Select student</option>');
+                $.each(e, function (ID, dataStudent) {
+                    $("#student").show();
+                    $("#student").append('<option value=' + dataStudent.currentGrade + ';' + dataStudent._id + '>' + dataStudent.firstName + '</option>');
+                });
+            }
         });
     });
+    //Listener to changes on item student
+    $("#student").change(function (e) {
+        //Get value from item student
+        var studentID = $("#student").val();
+        //Separate data, this time are Strings
+        var arrayOfString = studentID.split(";");
+        var grade = arrayOfString[0];
+        document.formRecordGrade.studentID.value = arrayOfString[1];
+        studentIDGlobal = arrayOfString[1];
+        $.ajax({
+            url: "/recordGrade/studentCmb/" + grade + "/" + carrerIDGlobal,
+            type: "GET",
+            success: function (e) {
+                $("#unit").hide();
+                $("#subject").html("");
+                $("#subject").append('<option value="" selected disabled>Select subject</option>');
+                $.each(e, function (ID, dataSubject) {
+                    $("#subject").show();
+                    $("#subject").append("<option value=" + dataSubject._id + ">" + dataSubject.name + "</option>");
+                });
+            }
+        });
+    });
+    //Listener to changes on item subject
+    $("#subject").change(function (e){
+        var subjectID = $("#subject").val();
+        document.formRecordGrade.subjectID.value = subjectID;
+        subjectIDGlobal = subjectID;
+        console.log(subjectID);
+        //Ajax, does not send the information, check later
+        //It's working
+        $.ajax({
+            url: "/recordGrade/unitCmb/" + subjectID,
+            type: "GET",
+            success: function (e) {
+                console.log("Success");
+                $("#unit").html("");
+                $("#unit").append('<option value="" selected disabled>Select unit</option>');
+                $.each(e, function (ID, dataUnit) {
+                    $("#unit").show();
+                    $("#unit").append('<option value=' + dataUnit.noUnit +  '>' + dataUnit.noUnit + ".- " + dataUnit.nameUnit + '</option>');
+                });
+            }
+        });
+    });
+    //Listener to changes on item unit
+    $("#unit").change(function (e) {
+        var unit = $("#unit").val();
+        document.formRecordGrade.noUnit.value = unit;
+
+        $.ajax({
+            url: "/recordGrade/viewRecordGrade/" + unit + "/" + subjectIDGlobal + "/" + studentIDGlobal,
+            type: "GET",
+            success: function(e) {
+                var formRecordGrade = document.getElementById("formRecordGrade");
+                $("#recordGrade").html;
+                if (e == false) {
+                    $("#recordGrade").append('<input  class="form-control" name="grade" id="grade" placeholder="Grade" type="number" required"></input>');
+                    btnRecordGrade.disabled = false;
+                } else if (e.grade < 7.6 && e.gradeR1 == null) {
+                    $("#recordGrade").append('<input  class="form-control" name="gradeR1" id="gradeR1" placeholder="GradeR1" type="number" required"></input>');
+                    formRecordGrade.action = '/recordGrade/updateGrade/' + unit + '/' + subjectIDGlobal + '/' + studentIDGlobal;
+                    formRecordGrade.method = 'POST';
+                    btnRecordGrade.disabled = false;
+                } else if (e.gradeR1 < 7.6 && e.gradeR2 == null) {
+                    $("#recordGrade").append('<input  class="form-control" name="gradeR2" id="gradeR2" placeholder="GradeR2" type="number" required"></input>');
+                    formRecordGrade.action = '/recordGrade/updateGrade/' + unit + '/' + subjectIDGlobal + '/' + studentIDGlobal;
+                    formRecordGrade.method = 'POST';
+                    btnRecordGrade.disabled = false;
+                } else if (e.gradeR2 < 7.6 && e.gradeGlobal == null) {
+                    $("#recordGrade").append('<input  class="form-control" name="gradeGlobal" id="gradeGlobal" placeholder="Grade Global" type="number" required"></input>');
+                    formRecordGrade.action = '/recordGrade/updateGrade/' + unit + '/' + subjectIDGlobal + '/' + studentIDGlobal;
+                    formRecordGrade.method = 'POST';
+                    btnRecordGrade.disabled = false;
+                } else if (e.gradeGlobal < 7.6) {
+                    alert("Unapproved");
+                    location.reload();
+                } else {
+                    alert("Approved");
+                    location.reload();
+                }
+            }
+        });
+    });
+});
 </script>
 
 <main class="container p-3">
-    <form action="/recordGrade" method="POST" id="formRecordGrade" name="formRecordGrade">
+    <form action="/recordGrade/saveGrade" method="POST" id="formRecordGrade" name="formRecordGrade">
         <div class="row">
             <div class="card col-md-5 p-2 m-2">
+                <input name="studentID" id="studentID" />
+                <input name="subjectID" id="subjectID" />
+                <input name="noUnit" id="noUnit" />
                 <label class="lead">Career</label>
                 <div class="group-form">
                     <select id="career" name="career" class="form-control">
                         <option value="">Select career</option>
-                        {{#each careers}}
-                        <option value="{{_id}}">{{name}}</option>
-                        {{/each}}
+                        <% for(var i=0; i< careers.length; i++) { %>
+                            <option value="<%= careers[i]._id %>"><%= careers[i].name %></option>
+                        <% } %>
                     </select>
                 </div>
                 <label class="lead">Student</label>
                 <div class="group-form">
-                    <select id="student" name="student" class="form-control">
-                    </select>
+                    <select id="student" name="student" class="form-control"> </select>
                 </div>
                 <label class="lead">Subject</label>
                 <div class="group-form">
-                    <select id="subject" name="subject" class="form-control">
-                    </select>
+                    <select id="subject" name="subject" class="form-control"> </select>
                 </div>
                 <label class="lead">Unit</label>
                 <div class="group-form">
-                    <select id="unit" name="unit" class="form-control">
-                    </select>
+                    <select id="unit" name="unit" class="form-control"> </select>
                 </div>
             </div>
             <div class="card col-md-6 p-2 m-2">
-                <input name="studentID" id="studentID">
-                <input name="subjectID" id="subjectID">
-                <input name="noUnit" id="noUnit">
+                <div class="group-form" id="recordGrade" name="recordGrade"></div>
                 <button type="submit" name="btnRecordGrade" id="btnRecordGrade" class="btn btn-success">
                     Record grade
                 </button>
             </div>
         </div>
     </form>
+    <div class="table-responsive m-3">
+        <table class="table table-dark col-md-12 mx-auto">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="lead">student ID</th>
+                    <th class="lead">subject ID</th>
+                    <th class="lead">Unit</th>
+                    <th class="lead">Grade</th>
+                    <th class="lead">Grade R1</th>
+                    <th class="lead">Grade R2</th>
+                    <th class="lead">Grade Global</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(var i=0; i< grades.length; i++) { %>
+                <tr>
+                    <td><%= grades[i].studentID %></td>
+                    <td><%= grades[i].subjectID %></td>
+                    <td><%= grades[i].noUnit %></td>
+                    <td><%= grades[i].grade %></td>
+                    <td><%= grades[i].gradeR1 %></td>
+                    <td><%= grades[i].gradeR2 %></td>
+                    <td><%= grades[i].gradeGlobal %></td>
+                    <td>
+                        <a href="/recordGrade/update/<%= grades[i]._id %>"><i class="fa fa-pencil fa-lg"></i></a>
+                        <a href="/recordGrade/delete/<%= grades[i]._id %>"><i class="fas fa-trash fa-lg"></i></a>
+                    </td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
 </main>
 
 <%- include('../partials/footer') %>

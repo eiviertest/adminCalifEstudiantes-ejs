@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const CalificacionSchema = new Schema(
+const GradeSchema = new Schema(
   {
     studentID: String,
     subjectID: String,
@@ -13,4 +13,4 @@ const CalificacionSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = model("Calificacion", CalificacionSchema);
+module.exports = model("Grade", GradeSchema);
