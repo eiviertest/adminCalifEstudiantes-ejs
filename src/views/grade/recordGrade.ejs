@@ -6,22 +6,27 @@
     var studentIDGlobal;
     var subjectIDGlobal;
 
-    //Hiding items from document
+    //Hiding items/tags from document
     $("#student").hide();
     $("#subject").hide();
     $("#unit").hide();
     $("#studentID").hide();
     $("#subjectID").hide();
     $("#noUnit").hide();
+    //Disable button to send information from form
     var btnRecordGrade = document.getElementById("btnRecordGrade");
     btnRecordGrade.disabled = true;
 
-    //Listener to changes on item career
+    //Listener to changes on tag career
     $("#career").change(function (e) {
+        //Get value from career's select
         var careerID = $("#career").val();
+        //Variable assignment to carrerIDGlobal with value got
         carrerIDGlobal = careerID;
+        //Information request to URL
         $.ajax({
             url: "/recordGrade/careerCmb/" + careerID,
+            //Method HTTP
             type: "GET",
             success: function (e) {
                 $("#subject").hide();
@@ -35,7 +40,7 @@
             }
         });
     });
-    //Listener to changes on item student
+    //Listener to changes on tag student
     $("#student").change(function (e) {
         //Get value from item student
         var studentID = $("#student").val();
@@ -50,6 +55,7 @@
             success: function (e) {
                 $("#unit").hide();
                 $("#subject").html("");
+                //Injection HTML
                 $("#subject").append('<option value="" selected disabled>Select subject</option>');
                 $.each(e, function (ID, dataSubject) {
                     $("#subject").show();
@@ -58,7 +64,7 @@
             }
         });
     });
-    //Listener to changes on item subject
+    //Listener to changes on tag subject
     $("#subject").change(function (e){
         var subjectID = $("#subject").val();
         document.formRecordGrade.subjectID.value = subjectID;
@@ -80,9 +86,10 @@
             }
         });
     });
-    //Listener to changes on item unit
+    //Listener to changes on tag unit
     $("#unit").change(function (e) {
         var unit = $("#unit").val();
+        //Get from from document
         document.formRecordGrade.noUnit.value = unit;
 
         $.ajax({
@@ -93,6 +100,7 @@
                 $("#recordGrade").html;
                 if (e == false) {
                     $("#recordGrade").append('<input  class="form-control" name="grade" id="grade" placeholder="Grade" type="number" required"></input>');
+                    //Enable button to send information
                     btnRecordGrade.disabled = false;
                 } else if (e.grade < 7.6 && e.gradeR1 == null) {
                     $("#recordGrade").append('<input  class="form-control" name="gradeR1" id="gradeR1" placeholder="GradeR1" type="number" required"></input>');

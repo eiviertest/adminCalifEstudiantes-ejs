@@ -1,6 +1,9 @@
+//Destructuring assignment from express module
 const { Router } = require("express");
+//Variable assignment and initialization
 const router = Router();
 
+//Destructuring assignment from student's controller
 const {
   listStudents,
   addStudent,

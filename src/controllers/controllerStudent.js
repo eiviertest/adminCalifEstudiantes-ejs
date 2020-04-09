@@ -22,7 +22,7 @@ ctrlStudent.addStudent = async (req, res) => {
 
 //Save a student in DB
 ctrlStudent.saveStudent = async (req, res) => {
-  //Destructuring from request
+  //Destructuring assignment from request's body
   const {
     firstName,
     fatherLastName,
@@ -37,7 +37,7 @@ ctrlStudent.saveStudent = async (req, res) => {
     currentGrade,
     careerID,
   } = req.body;
-  //Create the object with module mongoose
+  //Create the object with mongoose module
   const saveStudentDB = new Student({
     firstName,
     fatherLastName,
@@ -50,6 +50,7 @@ ctrlStudent.saveStudent = async (req, res) => {
   });
   //Save object created
   await saveStudentDB.save();
+  //Redirect to student's principal page
   res.redirect("/students");
 };
 
@@ -57,13 +58,15 @@ ctrlStudent.saveStudent = async (req, res) => {
 ctrlStudent.updateStudent = async (req, res) => {
   //Find a student in DB with ID from request
   const student = await Student.findById(req.params.id);
+  //Find student's career in DB using student found
   const careerStudent = await Career.findById(student.careerID);
+  //Render view to update with params; student and his career
   res.render("student/updateStudent", { student, careerStudent });
 };
 
 //Update a student
 ctrlStudent.updateStudentDB = async (req, res) => {
-  //Destructuring assignment from request
+  //Destructuring assignment from request's body
   const {
     neighborhood,
     street,
@@ -73,6 +76,7 @@ ctrlStudent.updateStudentDB = async (req, res) => {
     number,
     email,
   } = req.body;
+  //Update student´s data in DB with a constraint
   await Student.update(
     { _id: req.params.id },
     {
@@ -81,17 +85,20 @@ ctrlStudent.updateStudentDB = async (req, res) => {
       email,
     }
   );
+  //Redirect to student's principal page
   res.redirect("/students");
 };
 
 //Delete a student
 ctrlStudent.deleteStudent = async (req, res) => {
+  //Find student's grade in DB
   const gradeStudentDB = Grade.find({ studentID: req.params.id });
+  //If there is not student's grade, then delete student
   if ((await gradeStudentDB).length == 0) {
     await Student.remove({ _id: req.params.id });
   }
+  //Redirect to student's principal page
   res.redirect("/students");
 };
-
 
 module.exports = ctrlStudent;
