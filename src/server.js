@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const morgan = require("morgan");
+const methodOverride = require('method-override');
 
 //Initializations
 const app = express();
@@ -11,6 +12,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 //Middlewares
+app.use(methodOverride('_method'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan("dev"));

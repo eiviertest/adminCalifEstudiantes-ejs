@@ -26,7 +26,7 @@ router.post("/careers/save", async (req, res) => {
 });
 
 //Delete a career
-router.get("/careers/delete/:id", async (req, res) => {
+router.delete("/careers/delete/:id", async (req, res) => {
   await Career.remove({ _id: req.params.id });
   res.json("Career deleted");
 });
