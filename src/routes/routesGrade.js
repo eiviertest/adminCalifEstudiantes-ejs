@@ -13,21 +13,23 @@ const Grade = require("../models/Grade");
 //Get career's model
 const Career = require("../models/Career");
 
+/*
 //Redirect to principal page
 router.get("/", async (req, res) => {
   //Redirect from "/" to "/recordGrade"
   res.redirect("recordGrade");
 });
+*/
 
 //Render to view to record grade
 //When the route is "/recordGrade", use an async arrow function with request and response
-router.get("/recordGrade", async (req, res) => {
+router.get("/recordGrade", isLoggedIn, async (req, res) => {
   //Find all grades from DB using model Grade
   const grades = await Grade.find();
   //Find all career from DB using model Grade
   const careers = await Career.find();
   //Render view from path "/grade/recordGrade" with two params; careers and grades
-  res.render("grade/recordGrade", { careers, grades });
+  res.render("grade/recordGrade", { careers, grades, user: req.user });
 });
 
 //Add a student's grade
@@ -138,5 +140,12 @@ router.post(
     res.redirect("/recordGrade");
   }
 );
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+      return next();
+  }
+  return res.redirect("/");
+}
 
 module.exports = router;

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin App</title>
+    <!-- Test only these scripts-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--Bootstrap 4 CSS-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Font awesome -->
+    <script src="https://kit.fontawesome.com/5f96a8fa73.js" crossorigin="anonymous"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+</head>
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <div class="card mt-4 text-center">
+            <div class="card-header">
+                <h1><span class="fa fa-user"></span>Account Login</h1>
+            </div>
+            <% if(message.length > 0) { %>
+                <div class="alert alert-danger">
+                    <p><%= message %></p>
+                </div>
+            <% } %>
+            <div class="card-body">
+                <form action="/signin" method="POST">
+                    <div class="form-group">
+                        <input type="email" class="form-control" name="email" placeholder="Email" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="password" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block"><span class="fa fa-sign-in"></span>SignIn</button>
+                    </div>
+                </form>
+                <hr>
+                <div class="text-center">
+                    <p>Need an account? <a href="/signup">Create one!</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="my-5 pt-5 text-white bg-dark text-center text-small">
+    <p class="mb-1">&copy; 2020-2020 NodeJS MongoDB</p>
+    <p class="mb-1">Alejandro Vargas</p>
+    <ul class="list-inline">
+        <li class="list-inline-item"><a href="https://www.mongodb.com/es">MongoDB</a></li>
+        <li class="list-inline-item"><a href="https://nodejs.org/en/">NodeJS</a></li>
+        <li class="list-inline-item"><a href="https://www.npmjs.com/">NPM</a></li>
+    </ul>
+</footer>
+</body>
+</html>
