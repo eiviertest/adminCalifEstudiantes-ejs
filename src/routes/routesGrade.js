@@ -13,14 +13,6 @@ const Grade = require("../models/Grade");
 //Get career's model
 const Career = require("../models/Career");
 
-/*
-//Redirect to principal page
-router.get("/", async (req, res) => {
-  //Redirect from "/" to "/recordGrade"
-  res.redirect("recordGrade");
-});
-*/
-
 //Render to view to record grade
 //When the route is "/recordGrade", use an async arrow function with request and response
 router.get("/recordGrade", isLoggedIn, async (req, res) => {
@@ -34,7 +26,7 @@ router.get("/recordGrade", isLoggedIn, async (req, res) => {
 
 //Add a student's grade
 //When the route "/recordGrade" send information from his form, using form to catch it
-router.post("/recordGrade/saveGrade", async (req, res) => {
+router.post("/recordGrade/saveGrade", isLoggedIn, async (req, res) => {
   //Create a new object using the model Grade and his body use the request's body
   const grade = new Grade(req.body);
   //Save the information in DB
@@ -44,7 +36,7 @@ router.post("/recordGrade/saveGrade", async (req, res) => {
 });
 
 //Render view to update student's grade
-router.get("/recordGrade/update/:id", async (req, res) => {
+router.get("/recordGrade/update/:id", isLoggedIn, async (req, res) => {
   //Find student's grade from DB
   const grade = await Grade.findById(req.params.id);
   //Redirect page to update a student with his grade as param
@@ -53,7 +45,7 @@ router.get("/recordGrade/update/:id", async (req, res) => {
 
 //Update student's grade
 //Page to update student's grade send information and it's received by post method
-router.post("/recordGrade/updateGradeDB/:id", async (req, res) => {
+router.post("/recordGrade/updateGradeDB/:id", isLoggedIn, async (req, res) => {
   //Update student's data in DB
   await Grade.update({ _id: req.params.id }, req.body);
   //Redirect to principal page
@@ -61,7 +53,7 @@ router.post("/recordGrade/updateGradeDB/:id", async (req, res) => {
 });
 
 //Delete student's grade
-router.get("/recordGrade/delete/:id", async (req, res) => {
+router.get("/recordGrade/delete/:id", isLoggedIn, async (req, res) => {
   //Delete student's grade in DB
   await Grade.remove({ _id: req.params.id });
   res.redirect("/recordGrade");
@@ -69,7 +61,7 @@ router.get("/recordGrade/delete/:id", async (req, res) => {
 
 //Use Ajax to work this comboBox; does not reload the page
 //ComboBox Career
-router.get("/recordGrade/careerCmb/:careerID", async (req, res) => {
+router.get("/recordGrade/careerCmb/:careerID", isLoggedIn, async (req, res) => {
   //Destructuring assignment from request's params
   const { careerID } = req.params;
   //Find students' data in DB
@@ -79,9 +71,7 @@ router.get("/recordGrade/careerCmb/:careerID", async (req, res) => {
 });
 
 //ComboBox Student
-router.get(
-  "/recordGrade/studentCmb/:grade/:carrerIDGlobal",
-  async (req, res) => {
+router.get("/recordGrade/studentCmb/:grade/:carrerIDGlobal",isLoggedIn, async (req, res) => {
     //Destructuring assignment from request's params
     const { grade, carrerIDGlobal } = req.params;
     //Find subjects' data in DB with constraints
@@ -95,7 +85,7 @@ router.get(
 );
 
 //ComboBox Subject
-router.get("/recordGrade/unitCmb/:subjectID", async (req, res) => {
+router.get("/recordGrade/unitCmb/:subjectID", isLoggedIn, async (req, res) => {
   //Destructuring assignment from request's params
   const { subjectID } = req.params;
   //Find units' data in DB with constraints
@@ -105,9 +95,7 @@ router.get("/recordGrade/unitCmb/:subjectID", async (req, res) => {
 });
 
 //ComboBox Unit
-router.get(
-  "/recordGrade/viewRecordGrade/:unit/:subjectID/:studentID",
-  async (req, res) => {
+router.get("/recordGrade/viewRecordGrade/:unit/:subjectID/:studentID", isLoggedIn, async (req, res) => {
     //Destructuring assignment from request's params
     const { unit, subjectID, studentID } = req.params;
     //Find student's grade in DB with constraints
@@ -122,9 +110,7 @@ router.get(
 );
 
 //Update Grades
-router.post(
-  "/recordGrade/updateGrade/:unit/:subjectID/:studentID",
-  async (req, res) => {
+router.post("/recordGrade/updateGrade/:unit/:subjectID/:studentID", isLoggedIn, async (req, res) => {
     //Destructuring assignment from request's params
     const { unit, subjectID, studentID } = req.params;
     //Update student's grade in DB with constraints

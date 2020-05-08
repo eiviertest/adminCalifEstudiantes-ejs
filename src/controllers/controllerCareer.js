@@ -4,18 +4,18 @@ ctrlCareer = {};
 const Career = require("../models/Career");
 
 //Render view to show all careers
-ctrlCareer.listCareers = async (req, res) => {
+ctrlCareer.listCareers = isLoggedIn, async (req, res) => {
   const careers = await Career.find();
   res.render("career/listCareers", { careers });
 };
 
 //Render form to add a career
-ctrlCareer.addCareer = async (req, res) => {
+ctrlCareer.addCareer = isLoggedIn, async (req, res) => {
   res.render("career/addCareer");
 };
 
 //Save a career in DB
-ctrlCareer.saveCareer = async (req, res) => {
+ctrlCareer.saveCareer = isLoggedIn, async (req, res) => {
   //Create the object with module mongoose
   const saveCareer = new Career(req.body);
   //Save object created
@@ -24,22 +24,29 @@ ctrlCareer.saveCareer = async (req, res) => {
 };
 
 //Render form to update a career
-ctrlCareer.updateCareer = async (req, res) => {
+ctrlCareer.updateCareer = isLoggedIn, async (req, res) => {
   //Find a career in DB with ID from request
   const career = await Career.findById(req.params.id);
   res.render("career/updateCareer", { career });
 };
 
 //Update a career
-ctrlCareer.updateCareerDB = async (req, res) => {
+ctrlCareer.updateCareerDB = isLoggedIn, async (req, res) => {
   await Career.update({ _id: req.params.id }, req.body);
   res.redirect("/careers");
 };
 
 //Delete a career
-ctrlCareer.deleteCareer = async (req, res) => {
+ctrlCareer.deleteCareer = isLoggedIn, async (req, res) => {
   await Career.remove({ _id: req.params.id });
   res.redirect("/careers");
 };
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+      return next();
+  }
+  return res.redirect("/");
+}
 
 module.exports = ctrlCareer;
