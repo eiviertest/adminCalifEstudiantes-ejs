@@ -11,17 +11,24 @@ const {
 } = require("../controllers/controllerSubject");
 
 //See all subjects
-router.get("/", listSubjects);
+router.get("/", isLoggedIn, listSubjects);
 
 //Add a subject
-router.get("/add", addSubject);
-router.post("/saveSubject", saveSubject);
+router.get("/add", isLoggedIn, addSubject);
+router.post("/saveSubject", isLoggedIn, saveSubject);
 
 //Update a subject
-router.get("/update/:id", updateSubject);
-router.post("/updateSubjectDB/:id", updateSubjectDB);
+router.get("/update/:id", isLoggedIn, updateSubject);
+router.post("/updateSubjectDB/:id", isLoggedIn, updateSubjectDB);
 
 //Delete a subject
-router.get("/delete/:id", deleteSubject);
+router.get("/delete/:id", isLoggedIn, deleteSubject);
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()){
+    return next();
+  }
+  return res.redirect("/");
+}
 
 module.exports = router;

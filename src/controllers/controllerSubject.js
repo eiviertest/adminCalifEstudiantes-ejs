@@ -6,19 +6,19 @@ const Subject = require("../models/Subject");
 const Career = require("../models/Career");
 
 //Render view to show all subjects
-ctrlSubject.listSubjects = isLoggedIn, async (req, res) => {
+ctrlSubject.listSubjects = async (req, res) => {
   const subjects = await Subject.find();
   res.render("subject/listSubjects", { subjects });
 };
 
 //Render form to add a subject
-ctrlSubject.addSubject = isLoggedIn, async (req, res) => {
+ctrlSubject.addSubject = async (req, res) => {
   const careers = await Career.find();
   res.render("subject/addSubject", { careers });
 };
 
 //Save a subject in DB
-ctrlSubject.saveSubject = isLoggedIn, async (req, res) => {
+ctrlSubject.saveSubject = async (req, res) => {
   //Create the object with mongoose module
   const saveSubject = new Subject(req.body);
   //Save object created
@@ -27,7 +27,7 @@ ctrlSubject.saveSubject = isLoggedIn, async (req, res) => {
 };
 
 //Render form to update a career
-ctrlSubject.updateSubject = isLoggedIn, async (req, res) => {
+ctrlSubject.updateSubject = async (req, res) => {
   //Find a subject in DB with ID from request
   const subject = await Subject.findById(req.params.id);
   const careers = await Career.find();
@@ -36,22 +36,15 @@ ctrlSubject.updateSubject = isLoggedIn, async (req, res) => {
 };
 
 //Update a career
-ctrlSubject.updateSubjectDB = isLoggedIn, async (req, res) => {
+ctrlSubject.updateSubjectDB = async (req, res) => {
   await Subject.update({ _id: req.params.id }, req.body);
   res.redirect("/subjects");
 };
 
 //Delete a career
-ctrlSubject.deleteSubject = isLoggedIn, async (req, res) => {
+ctrlSubject.deleteSubject = async (req, res) => {
   await Subject.remove({ _id: req.params.id });
   res.redirect("/subjects");
 };
-
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) {
-      return next();
-  }
-  return res.redirect("/");
-}
 
 module.exports = ctrlSubject;

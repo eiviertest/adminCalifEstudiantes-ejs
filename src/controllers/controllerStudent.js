@@ -8,20 +8,20 @@ const Career = require("../models/Career");
 const Grade = require("../models/Grade");
 
 //Render view to show all students
-ctrlStudent.listStudents = isLoggedIn, async (req, res) => {
+ctrlStudent.listStudents = async (req, res) => {
   const students = await Student.find();
   res.render("student/listStudents", { students });
 };
 
 //Render form to add a student
-ctrlStudent.addStudent = isLoggedIn, async (req, res) => {
+ctrlStudent.addStudent = async (req, res) => {
   //Get all careers from DB
   const careers = await Career.find();
   res.render("student/addStudent", { careers });
 };
 
 //Save a student in DB
-ctrlStudent.saveStudent = isLoggedIn, async (req, res) => {
+ctrlStudent.saveStudent = async (req, res) => {
   //Destructuring assignment from request's body
   const {
     firstName,
@@ -55,7 +55,7 @@ ctrlStudent.saveStudent = isLoggedIn, async (req, res) => {
 };
 
 //Render form to update a student
-ctrlStudent.updateStudent = isLoggedIn, async (req, res) => {
+ctrlStudent.updateStudent = async (req, res) => {
   //Find a student in DB with ID from request
   const student = await Student.findById(req.params.id);
   //Find student's career in DB using student found
@@ -65,7 +65,7 @@ ctrlStudent.updateStudent = isLoggedIn, async (req, res) => {
 };
 
 //Update a student
-ctrlStudent.updateStudentDB = isLoggedIn, async (req, res) => {
+ctrlStudent.updateStudentDB = async (req, res) => {
   //Destructuring assignment from request's body
   const {
     neighborhood,
@@ -90,7 +90,7 @@ ctrlStudent.updateStudentDB = isLoggedIn, async (req, res) => {
 };
 
 //Delete a student
-ctrlStudent.deleteStudent = isLoggedIn, async (req, res) => {
+ctrlStudent.deleteStudent = async (req, res) => {
   //Find student's grade in DB
   const gradeStudentDB = Grade.find({ studentID: req.params.id });
   //If there is not student's grade, then delete student
@@ -100,12 +100,5 @@ ctrlStudent.deleteStudent = isLoggedIn, async (req, res) => {
   //Redirect to student's principal page
   res.redirect("/students");
 };
-
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) {
-      return next();
-  }
-  return res.redirect("/");
-}
 
 module.exports = ctrlStudent;

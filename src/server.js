@@ -36,8 +36,6 @@ app.use(passport.session());
 app.use(flash());
 
 //Routes
-require("./routes/routesUser")(app, passport);
-
 const routesRecordGrade = require("./routes/routesGrade");
 const routesCareer = require("./routes/routesCareer");
 const routesStudent = require("./routes/routesStudent");
@@ -45,12 +43,14 @@ const routesSubject = require("./routes/routesSubject");
 const routesUnitSubject = require("./routes/routesUnitSubject");
 const routesAPIrest = require("./routes/routesAPIrest");
 
-app.use("/", routesRecordGrade);
+app.use("/recordGrade", routesRecordGrade);
 app.use("/careers", routesCareer);
 app.use("/students", routesStudent);
 app.use("/subjects", routesSubject);
 app.use("/unitSubject", routesUnitSubject);
 app.use("/api", routesAPIrest);
+
+require("./routes/routesUser")(app, passport);
 
 //Static files
 app.use(express.static(path.join(__dirname, "public")));
